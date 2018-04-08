@@ -6,8 +6,8 @@ Batch B
 
 151080043 - Jatin Jain
 
-Suyash Wadhavane
+1510800   - Suyash Wadhavane
 
-Rohit Jathot
+1510800   - Rohit Jathot
 
-Beon Carvalho
+1510800   - Beon Carvalho
