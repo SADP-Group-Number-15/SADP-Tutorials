@@ -6,8 +6,9 @@ Batch B
 
 151080043 - Jatin Jain
 
-1510800   - Suyash Wadhavane
+151080040 - Suyash Wadhavane
 
-1510800   - Rohit Jathot
+151080034 - Rohit Jathot
 
-1510800   - Beon Carvalho
+151080032 - Beon Carvalho
+>>>>>>> 298f014e21375617a753cdc28c3003704c59df8b
