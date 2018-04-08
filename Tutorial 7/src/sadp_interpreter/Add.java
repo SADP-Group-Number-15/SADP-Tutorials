@@ -14,13 +14,13 @@ public class Add implements Expression{
 	private final Expression leftExp;
 	private final Expression rightExp;
 
-	public Add(Expression leftExpression,Expression rightExpression ){
-		this.leftExp = leftExpression;
-		this.rightExp = rightExpression;
+	public Add(Expression leftExp,Expression rightExp ){
+		this.leftExp = leftExp;
+		this.rightExp = rightExp;
 	}
 	@Override
 	public double interpret() {
-		return leftExp.interpret() + rightExp.interpret();
+		return leftExp.interpret()+ rightExp.interpret();
 	}
 
 }

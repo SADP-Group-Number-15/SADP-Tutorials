@@ -14,9 +14,9 @@ public class Product implements Expression{
 	private final Expression leftExp;
 	private final Expression rightExp;
 
-	public Product(Expression leftExpression,Expression rightExpression ){
-		this.leftExp = leftExpression;
-		this.rightExp = rightExpression;
+	public Product(Expression leftExp,Expression rightExp ){
+		this.leftExp = leftExp;
+		this.rightExp = rightExp;
 	}
 	@Override
 	public double interpret() {

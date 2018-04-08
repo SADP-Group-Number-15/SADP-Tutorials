@@ -14,9 +14,9 @@ public class Substract implements Expression{
 	private final Expression leftExp;
 	private final Expression rightExp;
 
-	public Substract(Expression leftExpression,Expression rightExpression ){
-		this.leftExp = leftExpression;
-		this.rightExp = rightExpression;
+	public Substract(Expression leftExp,Expression rightExp ){
+		this.leftExp = leftExp;
+		this.rightExp = rightExp;
 	}
 	@Override
 	public double interpret() {

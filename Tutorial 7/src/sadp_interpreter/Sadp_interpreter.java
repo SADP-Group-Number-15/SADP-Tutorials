@@ -16,18 +16,18 @@ public class Sadp_interpreter {
     /**
      * @param args the command line arguments
      */
-    private static String tokenString = "";
+    private static String input = "";
     private static Stack<Expression> stack;
-    private static String[] tokenArray;
+    private static String[] token;
     
-    public Sadp_interpreter(String tokenString){
-        this.tokenString = tokenString;
+    public Sadp_interpreter(String input){
+        this.input = input;
         stack = new Stack<>();
-        tokenArray = tokenString.split(" ");
+        token = input.split(" ");
     }
         
     public double calculate() {
-        for (String s : tokenArray) {
+        for (String s : token) {
                 if (Exp_helper.isOperator(s)) {
                         Expression rightExpression = stack.pop();
                         Expression leftExpression = stack.pop();

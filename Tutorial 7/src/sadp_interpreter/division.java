@@ -14,9 +14,9 @@ public class division implements Expression{
 	private final Expression leftExp;
 	private final Expression rightExp;
 
-	public division(Expression leftExpression,Expression rightExpression ){
-		this.leftExp = leftExpression;
-		this.rightExp = rightExpression;
+	public division(Expression leftExp,Expression rightExp ){
+		this.leftExp = leftExp;
+		this.rightExp = rightExp;
 	}
 	@Override
 	public double interpret() {
