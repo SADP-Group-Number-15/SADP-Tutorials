@@ -1,0 +1,117 @@
+package com.mangnaik.yogesh.user;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+public class NetworkManager {
+
+    Socket socket = null;
+    DataInputStream din = null;
+    DataOutputStream dout = null;
+    int port;
+    String host;
+
+    public NetworkManager(String host, int port){
+        this.port = port;
+        this.host = host;
+    }
+
+    private Socket getSocket() throws IOException {
+        return new Socket(host, port);
+    }
+
+    public void createConnection(){
+        try {
+            socket = getSocket();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println ("Failed to Create Socket");
+            return;
+        }
+        try {
+            din = new DataInputStream(socket.getInputStream());
+            dout = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to connect to the server");
+        }
+    }
+
+    public String query(String query) throws IOException {
+        dout.writeUTF(query);
+        String ans = din.readUTF();
+        return ans;
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+package com.mangnaik.yogesh.user;
+
+import java.io.IOException;
+
+/**
+ * Created by Yogesh on 2/2/2018.
+ */
+public class User {
+
+    UserUI ui;
+    NetworkManager networkManager;
+
+    public static void main(String args[]) {
+        new User();
+    }
+
+    public User() {
+        ui = new UserUI();
+        init();
+    }
+
+    private void init(){
+        networkManager = new NetworkManager("localhost", 8192);
+        networkManager.createConnection();
+        String query = "";
+        while(!query.equals("exit")){
+            query = ui.getInput();
+            System.out.println("Query : " + query);
+            if(!query.equals("")){
+                String ans;
+                try {
+                    ans = networkManager.query(query);
+                } catch (IOException e) {
+                    System.out.println("Connection Reset");
+                    networkManager.close();
+                    return;
+                }
+                ui.showResult(ans);
+            }
+        }
+    }
+}
+package com.mangnaik.yogesh.user;
+
+import java.util.Scanner;
+
+/**
+ * Created by Yogesh on 2/15/2018.
+ */
+public class UserUI {
+    Scanner scan = new Scanner(System.in);
+
+    public String getInput(){
+        String query = scan.nextLine();
+        return query;
+    }
+
+    public void showResult(String answer){
+        System.out.println(answer);
+    }
+}
+

@@ -1,0 +1,274 @@
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Add.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class Add implements Expression{
+	
+	private final Expression leftExp;
+	private final Expression rightExp;
+
+	public Add(Expression leftExpression,Expression rightExpression ){
+		this.leftExp = leftExpression;
+		this.rightExp = rightExpression;
+	}
+	@Override
+	public double interpret() {
+		return leftExp.interpret() + rightExp.interpret();
+	}
+
+}
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\division.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class division implements Expression{
+
+	private final Expression leftExp;
+	private final Expression rightExp;
+
+	public division(Expression leftExpression,Expression rightExpression ){
+		this.leftExp = leftExpression;
+		this.rightExp = rightExpression;
+	}
+	@Override
+	public double interpret() {
+		return leftExp.interpret() / rightExp.interpret();
+	}
+}
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Exp_helper.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class Exp_helper {
+
+	public static boolean isOperator(String s) {
+		if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/"))
+			return true;
+		else
+			return false;
+	}
+	
+	public static Expression getOperator(String s, Expression left,	Expression right) {
+		switch (s) {
+		case "+":
+			return new Add(left, right);
+		case "-":
+			return new Substract(left, right);
+		case "*":
+			return new Product(left, right);
+                case "/":
+                        return new division(left,right);
+		}
+		return null;
+	}
+
+}
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Expression.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public interface Expression {
+    public double interpret();
+}
+
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\main.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class main {
+    public static void main(String[] args) {
+        System.out.println(String.format("%.2f",new Sadp_interpreter("77 3 /").calculate()));
+    }
+}
+
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\num_val.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class num_val implements Expression{
+
+	private final double n;
+	
+	public num_val(double n){
+		this.n = n;
+	}
+	@Override
+	public double interpret() {
+		return n;
+	}
+
+}
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Product.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class Product implements Expression{
+
+	private final Expression leftExp;
+	private final Expression rightExp;
+
+	public Product(Expression leftExpression,Expression rightExpression ){
+		this.leftExp = leftExpression;
+		this.rightExp = rightExpression;
+	}
+	@Override
+	public double interpret() {
+		return leftExp.interpret() * rightExp.interpret();
+	}
+}
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Sadp_interpreter.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+import java.util.Stack;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class Sadp_interpreter {
+
+    /**
+     * @param args the command line arguments
+     */
+    private static String tokenString = "";
+    private static Stack<Expression> stack;
+    private static String[] tokenArray;
+    
+    public Sadp_interpreter(String tokenString){
+        this.tokenString = tokenString;
+        stack = new Stack<>();
+        tokenArray = tokenString.split(" ");
+    }
+        
+    public double calculate() {
+        for (String s : tokenArray) {
+                if (Exp_helper.isOperator(s)) {
+                        Expression rightExpression = stack.pop();
+                        Expression leftExpression = stack.pop();
+                        Expression operator = Exp_helper.getOperator(s, leftExpression,rightExpression);
+                        double result = operator.interpret();
+                        stack.push(new num_val(result));
+                } else {
+                        Expression i = new num_val(Double.parseDouble(s));
+                        stack.push(i);
+                }
+        }
+        return stack.pop().interpret();
+    }
+}
+
+
+
+c:\users\yoges\desktop\semester 6\sad alternate\tutorial 7\src\sadp_interpreter\Substract.java
+************************************************************************
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sadp_interpreter;
+
+/**
+ *
+ * @author ROHIT NAVNATH JATHOT
+ */
+public class Substract implements Expression{
+	
+	private final Expression leftExp;
+	private final Expression rightExp;
+
+	public Substract(Expression leftExpression,Expression rightExpression ){
+		this.leftExp = leftExpression;
+		this.rightExp = rightExpression;
+	}
+	@Override
+	public double interpret() {
+		return leftExp.interpret() - rightExp.interpret();
+	}
+
+}
+
